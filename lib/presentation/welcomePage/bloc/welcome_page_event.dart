@@ -7,7 +7,7 @@ class ChangeEmail extends WelcomePageEvent {
   ChangeEmail({this.email});
 }
 
-class SubmitEmail extends WelcomePageEvent {
+class ValidateEmail extends WelcomePageEvent {
   final String email;
-  SubmitEmail(this.email);
+  ValidateEmail(this.email);
 }

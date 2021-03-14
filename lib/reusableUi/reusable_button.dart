@@ -11,9 +11,9 @@ class ReusableButton extends StatelessWidget {
     style,
   }) {
     _size = style['size'];
-    _color = isEnabled ? style['color'] : Palette.lightSkyBlue;
+    _color = isEnabled ? style['color'] : Palette.gray;
     _borderRadiusRectangle = style['borderRadiusRectangle'];
-    _fontColor = isEnabled ? style['fontColor'] : Palette.black;
+    _fontColor = isEnabled ? style['fontColor'] : Palette.dark;
     _borderColor = style['borderColor'];
     _borderWidth = style['borderWidth'];
     _fontStyle = style['fontStyle'];

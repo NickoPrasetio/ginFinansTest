@@ -9,6 +9,7 @@ import 'package:ginFinans/reusableUi/circle_progress.dart';
 import 'package:ginFinans/reusableUi/reusable_button.dart';
 import 'package:ginFinans/reusableUi/reusable_dropdown.dart';
 import 'package:ginFinans/reusableUi/reusable_textview.dart';
+import 'package:ginFinans/util/constants.dart';
 
 import 'package:ginFinans/util/i18n.dart';
 import 'package:ginFinans/util/palette.dart';
@@ -18,7 +19,8 @@ class PersonalPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Palette.skyBlue,
+      appBar: AppBar(
+          backgroundColor: Palette.skyBlue,
           title: Text(I18n.getText(context, 'textAppBarAccount'))),
       resizeToAvoidBottomPadding: false,
       body: BlocProvider(
@@ -40,6 +42,7 @@ class _PersonalPageWidgetState extends State<PersonalPageWidget> {
   PersonalPageStyle _personalPageStyle = PersonalPageStyle();
   String _goalSelected, _monthlyIncomeSelected, _monthlyExpenseSelected;
   List<String> _goalOptions, _monthlyIncomeOptions, _monthlyExpenseOptions;
+  bool _isValidData;
 
   @override
   void initState() {
@@ -84,12 +87,13 @@ class _PersonalPageWidgetState extends State<PersonalPageWidget> {
                         pressHandler: _updateMonthlyExpense,
                         title: I18n.getText(context, 'textMonthlyExpense'),
                         value: _monthlyExpenseSelected,
-                        style: _personalPageStyle.dropDownStyle,
+                        style: _personalPageStyle.upperDownStyle,
                         options: _monthlyExpenseOptions),
                     Expanded(
                         child: Align(
                             alignment: Alignment.bottomCenter,
                             child: ReusableButton(
+                              isEnabled: _isValidData,
                               text: I18n.getText(context, 'textNext'),
                               style: _personalPageStyle.submitEmailButtonStyle,
                               pressHandler: () {
@@ -106,24 +110,26 @@ class _PersonalPageWidgetState extends State<PersonalPageWidget> {
       _goalSelected = state.goal;
       _monthlyIncomeSelected = state.monthlyIncome;
       _monthlyExpenseSelected = state.monthlyExpanse;
+      _isValidData = state.isValidData;
     } else {
-      _goalSelected = I18n.getText(context, 'textChooseoption');
-      _monthlyIncomeSelected = I18n.getText(context, 'textChooseoption');
-      _monthlyExpenseSelected = I18n.getText(context, 'textChooseoption');
+      _goalSelected = Constants.defaultOptionValue;
+      _monthlyIncomeSelected = Constants.defaultOptionValue;
+      _monthlyExpenseSelected = Constants.defaultOptionValue;
+      _isValidData = false;
     }
   }
 
   void _initOptions() {
-    _goalOptions = ['Saving', 'Transaction'];
+    _goalOptions = [Constants.savingOption, Constants.transactionOption];
     _monthlyIncomeOptions = [
-      '< Rp 1.000.000',
-      'Rp 1.000.000 - Rp 5.000.000',
-      '> 10.000.000'
+      Constants.belowOneMillion,
+      Constants.betweenOneToTenMillion,
+      Constants.aboveTenMillion
     ];
     _monthlyExpenseOptions = [
-      '< Rp 1.000.000',
-      'Rp 1.000.000 - Rp 5.000.000',
-      '> 10.000.000'
+      Constants.belowOneMillion,
+      Constants.betweenOneToTenMillion,
+      Constants.aboveTenMillion
     ];
   }
 

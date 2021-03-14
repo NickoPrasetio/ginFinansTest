@@ -13,6 +13,7 @@ import 'package:ginFinans/reusableUi/circle_progress.dart';
 import 'package:ginFinans/reusableUi/reusable_button.dart';
 import 'package:ginFinans/reusableUi/reusable_datepicker.dart';
 import 'package:ginFinans/reusableUi/reusable_textview.dart';
+import 'package:ginFinans/util/constants.dart';
 import 'package:ginFinans/util/date_parser.dart';
 
 import 'package:ginFinans/util/i18n.dart';
@@ -45,6 +46,7 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
   SchedulePageBloc _schedulePageBloc;
   SchedulePageStyle _schedulePageStyle = SchedulePageStyle();
   String _selectedDate, _selectedTime;
+  bool _isValidSchedule;
 
   @override
   void initState() {
@@ -66,7 +68,7 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
                     CircleProgress(total: 4, step: 3),
                     Container(
                         color: Palette.skyBlue,
-                        margin: EdgeInsets.only(left: 35, top: 8, bottom: 24,),
+                        margin: EdgeInsets.only(left: 35, bottom: 30),
                         height: 25,
                         width: 25,
                         child: CalendarAnimation()),
@@ -91,11 +93,12 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
                         datePickerFormat: DateParser.hhmm,
                         title: I18n.getText(context, 'textTime'),
                         value: _selectedTime,
-                        style: _schedulePageStyle.dropDownStyle),
+                        style: _schedulePageStyle.upperDownStyle),
                     Expanded(
                         child: Align(
                             alignment: Alignment.bottomCenter,
                             child: ReusableButton(
+                              isEnabled: _isValidSchedule,
                               text: I18n.getText(context, 'textNext'),
                               style: _schedulePageStyle.submitEmailButtonStyle,
                               pressHandler: () {
@@ -109,11 +112,13 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
 
   void _mapState(SchedulePageState state) {
     if (state is ScheduleLoaded) {
+      _isValidSchedule = state.isValidSchedule;
       _selectedDate = state.date;
       _selectedTime = state.time;
     } else {
-      _selectedDate = I18n.getText(context, 'textChooseoption');
-      _selectedTime = I18n.getText(context, 'textChooseoption');
+      _isValidSchedule = false;
+      _selectedDate = Constants.defaultOptionValue;
+      _selectedTime = Constants.defaultOptionValue;
     }
   }
 

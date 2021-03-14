@@ -14,8 +14,12 @@ import 'package:ginFinans/util/i18n.dart';
 import 'package:ginFinans/util/palette.dart';
 import 'package:ginFinans/util/routes.dart';
 import 'package:ginFinans/viewModel/complexityItemModel.dart';
+import 'package:ginFinans/viewModel/user_model.dart';
 
 class PasswordPage extends StatelessWidget {
+  final UserModel userModel;
+  const PasswordPage({Key key, this.userModel}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,13 +30,16 @@ class PasswordPage extends StatelessWidget {
       body: BlocProvider(
         create: (context) =>
             injector.get<PasswordPageBloc>()..add(PasswordPageInit()),
-        child: PasswordPageWidget(),
+        child: PasswordPageWidget(userModel: userModel),
       ),
     );
   }
 }
 
 class PasswordPageWidget extends StatefulWidget {
+  final UserModel userModel;
+  const PasswordPageWidget({this.userModel});
+
   @override
   _PasswordPageWidgetState createState() => _PasswordPageWidgetState();
 }
@@ -43,7 +50,7 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
   PasswordPageStyle _passwordPageStyle = PasswordPageStyle();
   TextEditingController _passwordController;
   List<ComplexityItemModel> listComplexity;
-  bool _isVisible;
+  bool _isVisible, _isValidPassword;
 
   @override
   void initState() {
@@ -69,6 +76,7 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
           return Container(
               color: Palette.skyBlue,
               child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     CircleProgress(total: 4, step: 1),
@@ -77,7 +85,7 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
                       style: _passwordPageStyle.passwordTitleTextStyle,
                     ),
                     ReusableTextView(
-                      text: I18n.getText(context, 'textWelcomeSubtitle'),
+                      text: I18n.getText(context, 'textCreatePasswordSubtitle'),
                       style: _passwordPageStyle.passwordSubtitleTextStyle,
                     ),
                     ReusableTextField(
@@ -90,23 +98,27 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
                       isValid: true,
                       pressHandler: _changeVisibilityPass,
                     ),
-                    Row(children: <Widget>[
-                      ReusableTextView(
-                        text: I18n.getText(context, 'textComplexity'),
-                        style: _passwordPageStyle.complexityTitleTextStyle,
-                      ),
-                      ReusableTextView(
-                        text: _passwordLevel,
-                        style: _passwordPageStyle.complexityTitleTextStyle,
-                      ),
-                    ]),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          ReusableTextView(
+                            text: I18n.getText(context, 'textComplexity'),
+                            style: _passwordPageStyle.complexityTitleTextStyle,
+                          ),
+                          ReusableTextView(
+                            text: _passwordLevel,
+                            style: _passwordPageStyle.complexityValueTextStyle,
+                          ),
+                        ]),
                     _complexityListWidgetItem(),
                     Expanded(
                         child: Align(
                             alignment: Alignment.bottomCenter,
                             child: ReusableButton(
+                              isEnabled: _isValidPassword,
                               text: I18n.getText(context, 'textNext'),
-                              style: _passwordPageStyle.submitEmailButtonStyle,
+                              style:
+                                  _passwordPageStyle.submitPasswordButtonStyle,
                               pressHandler: () {
                                 Navigator.push(
                                     context, personalPageRoute(context));
@@ -121,6 +133,7 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
       _setComplexityPassword(state);
       _passwordLevel = state.passwordLevel;
       _isVisible = state.isPasswordVisible;
+      _isValidPassword = state.isValidPassword;
     }
   }
 

@@ -7,11 +7,13 @@ class PasswordPageLoaded extends PasswordPageState {
   final bool isContainLowerCase;
   final bool isContainUppercase;
   final bool isConatainChar;
+  final bool isValidPassword;
   PasswordPageLoaded(
       {this.passwordLevel,
       this.isPasswordVisible,
       this.isContainNumber,
       this.isContainLowerCase,
       this.isContainUppercase,
-      this.isConatainChar});
+      this.isConatainChar,
+      this.isValidPassword});
 }

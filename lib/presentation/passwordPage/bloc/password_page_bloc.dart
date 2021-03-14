@@ -12,14 +12,17 @@ class PasswordPageBloc extends Bloc<PasswordPageEvent, PasswordPageState> {
           isContainNumber: false,
           isContainLowerCase: false,
           isContainUppercase: false,
+          isValidPassword: false
         ));
 
   bool _isPasswordVisible,
       _containNumber,
       _containLowerCase,
       _containUpperCase,
-      _containChar;
+      _containChar,
+      _isValidPassword;
   int _counterPass;
+  String _passwordLevel;
 
   @override
   Stream<PasswordPageState> mapEventToState(PasswordPageEvent event) async* {
@@ -30,6 +33,8 @@ class PasswordPageBloc extends Bloc<PasswordPageEvent, PasswordPageState> {
       _containLowerCase = false;
       _containUpperCase = false;
       _containChar = false;
+      _isValidPassword = false;
+      _passwordLevel = '';
     } else if (event is ChangePasswordVisibility) {
       _isPasswordVisible = !event.isVisible;
     } else if (event is ChangePasswordValue) {
@@ -37,19 +42,33 @@ class PasswordPageBloc extends Bloc<PasswordPageEvent, PasswordPageState> {
       _containLowerCase = isContainLowerCase(event.password);
       _containUpperCase = isContainUpperCase(event.password);
       _containChar = isContainChar(event.password);
+      _passwordLevel = calcPassWeakness(event.password);
+      _isValidPassword = isValidPassword();
     }
     yield updateUiStatus();
   }
 
-  String calcPassWeakness() {
-    if (_counterPass < 2) {
+  String calcPassWeakness(String password) {
+    if (password.isEmpty) {
+      return '';
+    } else if (_counterPass == 1) {
       return 'Super Weak';
-    } else if (_counterPass <= 3) {
+    } else if (_counterPass == 2) {
+      return 'Very Weak';
+    } else if (_counterPass == 3) {
       return 'Weak';
-    } else if (_counterPass >= 4) {
+    } else if (_counterPass == 3) {
       return 'Strong';
     }
     return '';
+  }
+
+  bool isValidPassword() {
+    if (_counterPass == 4) {
+      return true;
+    }else {
+      return false;
+    }
   }
 
   bool isContainNumber(String value) {
@@ -86,11 +105,12 @@ class PasswordPageBloc extends Bloc<PasswordPageEvent, PasswordPageState> {
 
   PasswordPageLoaded updateUiStatus() {
     return PasswordPageLoaded(
-        passwordLevel: calcPassWeakness(),
+        passwordLevel: _passwordLevel,
         isPasswordVisible: _isPasswordVisible,
         isConatainChar: _containChar,
         isContainNumber: _containNumber,
         isContainLowerCase: _containLowerCase,
-        isContainUppercase: _containUpperCase);
+        isContainUppercase: _containUpperCase,
+        isValidPassword: _isValidPassword);
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class Palette {
   static Color skyBlue = const Color(0xFF427FF0);
   static Color lightSkyBlue = const Color(0xFF74A0E9);
+  static Color lightGray = const Color(0xFFF9F9F9);
   static Color softGrey = const Color(0xFFE3E3E3);
   static Color goldYellow = const Color(0xFFDDB362);
   static Color black = const Color(0xFF282828);
@@ -12,6 +13,7 @@ class Palette {
   static Color hardGray = const Color(0xFF424953);
   static Color blue = const Color(0xFF416ED1);
   static Color purpleBlue = const Color(0xFF5533e3);
+  static Color softGray = const Color(0xFFF0F0F0);
   static Color gray = const Color(0xFFdedede);
   static Color purplishBlue = const Color(0xFF6948f0);
   static Color cloudyBlue = const Color(0xFFb8c1d2);
@@ -20,7 +22,6 @@ class Palette {
   static Color steel = const Color(0xFF7c8696);
   static Color brick = const Color(0xFFc7382a);
   static Color liliac = const Color(0xFFbb86fc);
-  static Color darkGrey = const Color(0xFF1e1e22);
   static Color veryLightBlue = const Color(0xFFe4eaf3);
   static Color periwinkle = const Color(0xFF8e73ff);
   static Color paleGreyTwo = const Color(0xFFf2eeff);

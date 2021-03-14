@@ -8,8 +8,9 @@ class InitLoaded extends SchedulePageState {
 class ScheduleLoaded extends SchedulePageState {
   final String date;
   final String time;
+  final bool isValidSchedule;
 
-  ScheduleLoaded({this.date, this.time});
+  ScheduleLoaded({this.date, this.time, this.isValidSchedule});
 }
 
 class ScheduleSubmited extends SchedulePageState {

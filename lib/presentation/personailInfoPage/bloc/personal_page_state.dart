@@ -10,7 +10,8 @@ class PersonalInfoLoaded extends PersonalPageState {
   final String goal;
   final String monthlyIncome; 
   final String monthlyExpanse;
-  PersonalInfoLoaded({this.goal, this.monthlyIncome, this.monthlyExpanse});
+  final bool isValidData;
+  PersonalInfoLoaded({this.goal, this.monthlyIncome, this.monthlyExpanse, this.isValidData});
 }
 
 class EmailSubmited extends PersonalPageState {

@@ -14,6 +14,7 @@ import 'package:ginFinans/reusableUi/text_input_widget_controller.dart';
 import 'package:ginFinans/util/i18n.dart';
 import 'package:ginFinans/util/palette.dart';
 import 'package:ginFinans/util/routes.dart';
+import 'package:ginFinans/viewModel/user_model.dart';
 
 import 'bloc/welcome_page_state.dart';
 
@@ -21,7 +22,7 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Palette.softGrey),
+      appBar: AppBar(backgroundColor: Palette.softGray),
       resizeToAvoidBottomPadding: false,
       body: BlocProvider(
         create: (context) =>
@@ -40,13 +41,15 @@ class WelcomePageWidget extends StatefulWidget {
 class _WelcomePageWidgetState extends State<WelcomePageWidget> {
   WelcomePageBloc _welcomePageBloc;
   WelcomePageStyle _welcomePageStyle = WelcomePageStyle();
+  UserModel _userModel;
   TextEditingController _emailController;
-  bool _isValidEmail = true;
+  bool _isValidEmail = false;
   String _email;
 
   @override
   void initState() {
     super.initState();
+    _userModel = UserModel();
     _emailController = TextInputController((value) => _emailChanged(value))
         .textEditingController;
     _welcomePageBloc = BlocProvider.of<WelcomePageBloc>(context);
@@ -65,7 +68,7 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
         builder: (BuildContext context, WelcomePageState state) {
           _mapState(state);
           return Container(
-              color: Palette.softGrey,
+              color: Palette.softGray,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
@@ -97,11 +100,11 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
                         child: Align(
                             alignment: Alignment.bottomCenter,
                             child: ReusableButton(
+                              isEnabled: _isValidEmail,
                               text: I18n.getText(context, 'textNext'),
                               style: _welcomePageStyle.submitEmailButtonStyle,
                               pressHandler: () {
-                                Navigator.push(
-                                    context, passwordPageRoute(context));
+                                 _navigateToPasswordPage();
                               },
                             )))
                   ]));
@@ -138,6 +141,10 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
         ));
   }
 
+  void _navigateToPasswordPage() {
+    Navigator.push(context, passwordPageRoute(context, user: _userModel));
+  }
+
   void _emailChanged(String email) {
     _welcomePageBloc.add(ChangeEmail(email: email));
   }
@@ -146,6 +153,7 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
     if (state is EmailChanged) {
       _isValidEmail = state.isValid;
       _email = state.email;
+      _userModel.email = state.email;
     }
   }
 }
