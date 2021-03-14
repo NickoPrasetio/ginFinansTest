@@ -4,12 +4,14 @@ import 'package:ginFinans/module/base_module.dart';
 import 'package:ginFinans/presentation/welcomePage/bloc/welcome_page_bloc.dart';
 import 'package:ginFinans/presentation/welcomePage/bloc/welcome_page_event.dart';
 import 'package:ginFinans/presentation/welcomePage/style/welcome_page_style.dart';
+import 'package:ginFinans/reusableUi/base_style.dart';
 import 'package:ginFinans/reusableUi/reusable_button.dart';
 import 'package:ginFinans/reusableUi/reusable_textfield.dart';
 import 'package:ginFinans/reusableUi/reusable_textview.dart';
 import 'package:ginFinans/reusableUi/text_input_widget_controller.dart';
 
 import 'package:ginFinans/util/i18n.dart';
+import 'package:ginFinans/util/palette.dart';
 import 'package:ginFinans/util/routes.dart';
 
 import 'bloc/welcome_page_state.dart';
@@ -61,7 +63,36 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
         cubit: _welcomePageBloc,
         builder: (BuildContext context, WelcomePageState state) {
           _mapState(state);
-          return Column(mainAxisSize: MainAxisSize.max, children: <Widget>[
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max, children: <Widget>[
+            Container(
+                width: 250,
+                margin: EdgeInsets.only(left: 24, right: 24),
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: I18n.getText(context, 'textWelcomeTitle'),
+                        style: TextStyle(
+                          height: 1.5,
+                          fontSize: 32.0,
+                          fontFamily: FontFamilies.bold,
+                          color: Palette.black,
+                        ),
+                      ),
+                      TextSpan(
+                          text: I18n.getText(context, 'textFinans'),
+                          style: TextStyle(
+                            height: 1.5,
+                            fontSize: 32.0,
+                            fontFamily: FontFamilies.bold,
+                            color: Palette.blue,
+                          )),
+                    ],
+                  ),
+                )),
             ReusableTextView(
               text: I18n.getText(context, 'textWelcomeSubtitle'),
               style: _welcomePageStyle.welcomeSubtitleTextStyle,

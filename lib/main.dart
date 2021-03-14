@@ -20,42 +20,41 @@ class GinFinansApp extends StatefulWidget {
 }
 
 class _GinFinansAppState extends State<GinFinansApp> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-          pageTransitionsTheme: const PageTransitionsTheme(builders: {
-            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          }),
-          backgroundColor: Palette.white,
-          brightness: Brightness.light,
-          primarySwatch: Palette.materialWhite,
-          accentColor: Palette.purpleBlue,
-          scaffoldBackgroundColor: Palette.white,
-          primaryIconTheme: IconThemeData(color: Palette.purpleBlue),
-          appBarTheme: AppBarTheme(
-              elevation: 0,
-              textTheme: TextTheme(
-                  title: TextStyle(
-                fontSize: 18,
-                color: Palette.dark,
-                fontFamily: FontFamilies.bold,
-              ))),
-        ),
-        debugShowCheckedModeBanner: false,
-        locale: const Locale('id', 'ID'),
-        supportedLocales: [const Locale('id', 'ID')],
-        localizationsDelegates: [
-          AppLocalization.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        home: Scaffold(
-          body: WelcomePage(),
-        ),
-      );
+      theme: ThemeData(
+        pageTransitionsTheme: const PageTransitionsTheme(builders: {
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        }),
+        backgroundColor: Palette.white,
+        brightness: Brightness.light,
+        primarySwatch: Palette.materialWhite,
+        accentColor: Palette.purpleBlue,
+        scaffoldBackgroundColor: Palette.white,
+        primaryIconTheme: IconThemeData(color: Palette.white),
+        appBarTheme: AppBarTheme(
+            elevation: 0,
+            textTheme: TextTheme(
+                title: TextStyle(
+              fontSize: 18,
+              color: Palette.white,
+              fontFamily: FontFamilies.bold,
+            ))),
+      ),
+      debugShowCheckedModeBanner: false,
+      locale: const Locale('id', 'ID'),
+      supportedLocales: [const Locale('id', 'ID')],
+      localizationsDelegates: [
+        AppLocalization.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      home: Scaffold(
+        body: WelcomePage(),
+      ),
+    );
   }
 }

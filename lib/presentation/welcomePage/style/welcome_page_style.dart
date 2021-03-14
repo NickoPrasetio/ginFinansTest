@@ -17,7 +17,7 @@ class WelcomePageStyle {
     ...ReusableTextViewStyle.h2bStyle,
     'fontColor': Palette.black,
     'maxLines': 3,
-    'margin': Space(bottom: 24, left: 24),
+    'margin': Space(bottom: 24, left: 24, top: 24),
   };
 
   var submitEmailButtonStyle = {

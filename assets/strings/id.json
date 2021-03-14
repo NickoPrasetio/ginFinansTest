@@ -1,5 +1,7 @@
 {
-    "textWelcomeTitle": "Welcome to Gin",
+    "textAppBarAccount": "Create Account",
+    "textFinans": " Finans",
+    "textWelcomeTitle": "Welcome to GIN",
     "textWelcomeSubtitle": "Welcome to The Bank of the Future. Manage and track your account on the go",
     "textNext": "Next",
     "textEmail": "Email",

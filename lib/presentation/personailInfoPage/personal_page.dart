@@ -17,7 +17,8 @@ class PersonalPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Palette.skyBlue),
+      appBar: AppBar(backgroundColor: Palette.skyBlue,
+          title: Text(I18n.getText(context, 'textAppBarAccount'))),
       resizeToAvoidBottomPadding: false,
       body: BlocProvider(
         create: (context) =>
