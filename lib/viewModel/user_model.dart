@@ -4,4 +4,6 @@ class UserModel {
   String goal;
   String income;
   String expense;
+  String scheduleDate;
+  String scheduleTime;
 }

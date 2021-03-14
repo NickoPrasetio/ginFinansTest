@@ -22,14 +22,18 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Palette.softGray),
-      resizeToAvoidBottomPadding: false,
-      body: BlocProvider(
-        create: (context) =>
-            injector.get<WelcomePageBloc>()..add(WelcomeInit()),
-        child: WelcomePageWidget(),
-      ),
-    );
+        appBar: AppBar(backgroundColor: Palette.softGray),
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+            child: ConstrainedBox(
+          constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height - 85),
+          child: BlocProvider(
+            create: (context) =>
+                injector.get<WelcomePageBloc>()..add(WelcomeInit()),
+            child: WelcomePageWidget(),
+          ),
+        )));
   }
 }
 
@@ -44,7 +48,6 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
   UserModel _userModel;
   TextEditingController _emailController;
   bool _isValidEmail = false;
-  String _email;
 
   @override
   void initState() {
@@ -70,44 +73,42 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
           return Container(
               color: Palette.softGray,
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    CircleProgress(total: 4, step: 0),
-                    _welcomeTitleWidget(),
-                    ReusableTextView(
-                      text: I18n.getText(context, 'textWelcomeSubtitle'),
-                      style: _welcomePageStyle.welcomeSubtitleTextStyle,
-                    ),
-                    Container(
-                        margin: const EdgeInsets.only(
-                            left: 24, right: 24, top: 50, bottom: 50),
-                        padding: const EdgeInsets.only(top: 30),
-                        decoration: BoxDecoration(
-                            color: Palette.white,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5.0))),
-                        child: ReusableTextField(
-                          textChangeHandler: _emailController,
-                          hintText: I18n.getText(context, 'textEmail'),
-                          prefixIcon: Icon(Icons.email, color: Colors.grey),
-                          obscureText: false,
-                          style: _welcomePageStyle.emailStyle,
-                          isValid: _isValidEmail,
-                          errorText: 'Please enter a valid Email',
-                        )),
-                    Expanded(
-                        child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: ReusableButton(
-                              isEnabled: _isValidEmail,
-                              text: I18n.getText(context, 'textNext'),
-                              style: _welcomePageStyle.submitEmailButtonStyle,
-                              pressHandler: () {
-                                 _navigateToPasswordPage();
-                              },
-                            )))
-                  ]));
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min, children: <Widget>[
+                CircleProgress(total: 4, step: 0),
+                _welcomeTitleWidget(),
+                ReusableTextView(
+                  text: I18n.getText(context, 'textWelcomeSubtitle'),
+                  style: _welcomePageStyle.welcomeSubtitleTextStyle,
+                ),
+                Container(
+                    margin: const EdgeInsets.only(left: 24, right: 24),
+                    padding: const EdgeInsets.only(top: 30),
+                    decoration: BoxDecoration(
+                        color: Palette.white,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5.0))),
+                    child: ReusableTextField(
+                      textChangeHandler: _emailController,
+                      hintText: I18n.getText(context, 'textEmail'),
+                      prefixIcon: Icon(Icons.email, color: Colors.grey),
+                      obscureText: false,
+                      style: _welcomePageStyle.emailStyle,
+                      isValid: _isValidEmail,
+                      errorText: 'Please enter a valid Email',
+                    )),
+                Expanded(
+                    child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ReusableButton(
+                          isEnabled: _isValidEmail,
+                          text: I18n.getText(context, 'textNext'),
+                          style: _welcomePageStyle.submitEmailButtonStyle,
+                          pressHandler: () {
+                            _navigateToPasswordPage();
+                          },
+                        )))
+              ]));
         });
   }
 
@@ -152,7 +153,6 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
   void _mapState(WelcomePageState state) {
     if (state is EmailChanged) {
       _isValidEmail = state.isValid;
-      _email = state.email;
       _userModel.email = state.email;
     }
   }

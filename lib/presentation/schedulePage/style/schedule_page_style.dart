@@ -18,6 +18,13 @@ class SchedulePageStyle {
     'margin': Space(bottom: 24, left: 24, right: 24),
   };
 
+    var resultTextStyle = {
+    ...ReusableTextViewStyle.textAreaP1Style,
+    'fontColor': Palette.black,
+    'maxLines': 4,
+    'margin': Space(bottom: 24, left: 24, right: 24),
+  };
+
   var submitEmailButtonStyle = {
     ...ReusableButtonStyle.primaryButtonStyle,
     'margin': Space(bottom: 40, left: 24, right: 24),

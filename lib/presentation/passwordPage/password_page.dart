@@ -26,7 +26,7 @@ class PasswordPage extends StatelessWidget {
       appBar: AppBar(
           backgroundColor: Palette.skyBlue,
           title: Text(I18n.getText(context, 'textAppBarAccount'))),
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: BlocProvider(
         create: (context) =>
             injector.get<PasswordPageBloc>()..add(PasswordPageInit()),
@@ -51,10 +51,12 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
   TextEditingController _passwordController;
   List<ComplexityItemModel> listComplexity;
   bool _isVisible, _isValidPassword;
+  UserModel _userModel;
 
   @override
   void initState() {
     super.initState();
+    _userModel = widget.userModel;
     _passwordPageBloc = BlocProvider.of<PasswordPageBloc>(context);
     _passwordController =
         TextInputController((value) => _passwordChanged(value))
@@ -73,7 +75,11 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
         cubit: _passwordPageBloc,
         builder: (BuildContext context, PasswordPageState state) {
           _mapState(state);
-          return Container(
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+          constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height - 70),
+          child: Container(
               color: Palette.skyBlue,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -120,12 +126,15 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
                               style:
                                   _passwordPageStyle.submitPasswordButtonStyle,
                               pressHandler: () {
-                                Navigator.push(
-                                    context, personalPageRoute(context));
+                                _navigateToPersonalInfo();
                               },
                             )))
-                  ]));
+                  ]))));
         });
+  }
+
+  void _navigateToPersonalInfo() {
+    Navigator.push(context, personalPageRoute(context, user: _userModel));
   }
 
   void _mapState(PasswordPageState state) {
@@ -134,6 +143,7 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
       _passwordLevel = state.passwordLevel;
       _isVisible = state.isPasswordVisible;
       _isValidPassword = state.isValidPassword;
+      _userModel.password = _passwordController.text;
     }
   }
 

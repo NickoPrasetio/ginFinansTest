@@ -18,9 +18,12 @@ import 'package:ginFinans/util/date_parser.dart';
 
 import 'package:ginFinans/util/i18n.dart';
 import 'package:ginFinans/util/palette.dart';
-import 'package:ginFinans/util/routes.dart';
+import 'package:ginFinans/viewModel/user_model.dart';
 
 class SchedulePage extends StatelessWidget {
+  final UserModel userModel;
+  const SchedulePage({Key key, this.userModel}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,13 +34,16 @@ class SchedulePage extends StatelessWidget {
       body: BlocProvider(
         create: (context) =>
             injector.get<SchedulePageBloc>()..add(WelcomeInit()),
-        child: SchedulePageWidget(),
+        child: SchedulePageWidget(userModel: userModel),
       ),
     );
   }
 }
 
 class SchedulePageWidget extends StatefulWidget {
+  final UserModel userModel;
+  const SchedulePageWidget({this.userModel});
+
   @override
   _WelcomePageWidgetState createState() => _WelcomePageWidgetState();
 }
@@ -47,10 +53,12 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
   SchedulePageStyle _schedulePageStyle = SchedulePageStyle();
   String _selectedDate, _selectedTime;
   bool _isValidSchedule;
+  UserModel _userModel;
 
   @override
   void initState() {
     super.initState();
+    _userModel = widget.userModel;
     _schedulePageBloc = BlocProvider.of<SchedulePageBloc>(context);
   }
 
@@ -99,15 +107,63 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
                             alignment: Alignment.bottomCenter,
                             child: ReusableButton(
                               isEnabled: _isValidSchedule,
-                              text: I18n.getText(context, 'textNext'),
+                              text: I18n.getText(context, 'textClose'),
                               style: _schedulePageStyle.submitEmailButtonStyle,
                               pressHandler: () {
-                                Navigator.push(
-                                    context, passwordPageRoute(context));
+                                showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    child: Container(child: _finalDialog()));
                               },
                             )))
                   ]));
         });
+  }
+
+  Widget _finalDialog() {
+    return Center(
+        child: Container(
+            height: 450,
+            width: 200,
+            color: Palette.white,
+            child: Column(children: <Widget>[
+              ReusableTextView(
+                text: _userModel.email,
+                style: _schedulePageStyle.resultTextStyle,
+              ),
+              ReusableTextView(
+                text: _userModel.password,
+                style: _schedulePageStyle.resultTextStyle,
+              ),
+              ReusableTextView(
+                text: _userModel.goal,
+                style: _schedulePageStyle.resultTextStyle,
+              ),
+              ReusableTextView(
+                text: _userModel.income,
+                style: _schedulePageStyle.resultTextStyle,
+              ),
+              ReusableTextView(
+                text: _userModel.expense,
+                style: _schedulePageStyle.resultTextStyle,
+              ),
+              ReusableTextView(
+                text: _userModel.scheduleDate,
+                style: _schedulePageStyle.resultTextStyle,
+              ),
+              ReusableTextView(
+                text: _userModel.scheduleTime,
+                style: _schedulePageStyle.resultTextStyle,
+              ),
+              ReusableButton(
+                isEnabled: _isValidSchedule,
+                text: I18n.getText(context, 'textClose'),
+                style: _schedulePageStyle.submitEmailButtonStyle,
+                pressHandler: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ])));
   }
 
   void _mapState(SchedulePageState state) {
@@ -115,6 +171,8 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
       _isValidSchedule = state.isValidSchedule;
       _selectedDate = state.date;
       _selectedTime = state.time;
+      _userModel.scheduleDate = state.date;
+      _userModel.scheduleTime = state.time;
     } else {
       _isValidSchedule = false;
       _selectedDate = Constants.defaultOptionValue;
@@ -161,8 +219,8 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
 
   Future<void> _selectDateTimeMaterial(BuildContext context, String formatter,
       CupertinoDatePickerMode mode) async {
-    DateTime selectedDate = DateTime.now();
     if (mode == CupertinoDatePickerMode.date) {
+      DateTime selectedDate = DateTime.now();
       final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -208,7 +266,7 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
           );
         },
       );
-      if (picked != null && picked != selectedTime)
+      if (picked != null)
         setState(() {
           selectedTime = picked;
           final localizations = MaterialLocalizations.of(context);

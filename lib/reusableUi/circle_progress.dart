@@ -5,7 +5,7 @@ class CircleProgress extends StatelessWidget {
   final int total;
   final int step;
   const CircleProgress({this.total, this.step});
-
+  
   @override
   Widget build(BuildContext context) {
     final double lineWidth = _calculateWidthBasedOnTotal(context, total);
@@ -18,7 +18,7 @@ class CircleProgress extends StatelessWidget {
                 itemCount: total,
                 itemBuilder: (BuildContext context, int index) {
                   Color circleColor = Palette.softGrey;
-                  if (index < step) {
+                  if (index < step){
                     circleColor = Palette.stepGreen;
                   }
                   return Row(children: <Widget>[

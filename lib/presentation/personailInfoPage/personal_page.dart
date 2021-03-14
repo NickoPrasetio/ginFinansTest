@@ -14,8 +14,12 @@ import 'package:ginFinans/util/constants.dart';
 import 'package:ginFinans/util/i18n.dart';
 import 'package:ginFinans/util/palette.dart';
 import 'package:ginFinans/util/routes.dart';
+import 'package:ginFinans/viewModel/user_model.dart';
 
 class PersonalPage extends StatelessWidget {
+  final UserModel userModel;
+  const PersonalPage({Key key, this.userModel}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,13 +30,16 @@ class PersonalPage extends StatelessWidget {
       body: BlocProvider(
         create: (context) =>
             injector.get<PersonalPageBloc>()..add(WelcomeInit()),
-        child: PersonalPageWidget(),
+        child: PersonalPageWidget(userModel: userModel),
       ),
     );
   }
 }
 
 class PersonalPageWidget extends StatefulWidget {
+  final UserModel userModel;
+  const PersonalPageWidget({this.userModel});
+
   @override
   _PersonalPageWidgetState createState() => _PersonalPageWidgetState();
 }
@@ -43,11 +50,13 @@ class _PersonalPageWidgetState extends State<PersonalPageWidget> {
   String _goalSelected, _monthlyIncomeSelected, _monthlyExpenseSelected;
   List<String> _goalOptions, _monthlyIncomeOptions, _monthlyExpenseOptions;
   bool _isValidData;
+  UserModel _userModel;
 
   @override
   void initState() {
     super.initState();
     _initOptions();
+    _userModel = widget.userModel;
     _personalPageBloc = BlocProvider.of<PersonalPageBloc>(context);
   }
 
@@ -97,12 +106,15 @@ class _PersonalPageWidgetState extends State<PersonalPageWidget> {
                               text: I18n.getText(context, 'textNext'),
                               style: _personalPageStyle.submitEmailButtonStyle,
                               pressHandler: () {
-                                Navigator.push(
-                                    context, schedulePageRoute(context));
+                                _navigateToSchedule();
                               },
                             )))
                   ]));
         });
+  }
+
+  void _navigateToSchedule() {
+    Navigator.push(context, schedulePageRoute(context, user: _userModel));
   }
 
   void _mapState(BuildContext context, PersonalPageState state) {
@@ -111,6 +123,9 @@ class _PersonalPageWidgetState extends State<PersonalPageWidget> {
       _monthlyIncomeSelected = state.monthlyIncome;
       _monthlyExpenseSelected = state.monthlyExpanse;
       _isValidData = state.isValidData;
+      _userModel.goal = state.goal;
+      _userModel.expense = state.monthlyExpanse;
+      _userModel.income = state.monthlyIncome;
     } else {
       _goalSelected = Constants.defaultOptionValue;
       _monthlyIncomeSelected = Constants.defaultOptionValue;

@@ -22,6 +22,6 @@ class WelcomePageStyle {
 
   var submitEmailButtonStyle = {
     ...ReusableButtonStyle.primaryButtonStyle,
-    'margin': Space(bottom: 40, left: 24, right: 24),
+    'margin': Space(left: 24, right: 24, bottom: 20),
   };
 }

@@ -8,9 +8,9 @@ import 'package:ginFinans/viewModel/user_model.dart';
 OneRoute passwordPageRoute(BuildContext context, {UserModel user}) =>
     OneRoute(builder: (context) => PasswordPage(userModel: user));
 
-OneRoute personalPageRoute(BuildContext context) =>
-    OneRoute(builder: (context) => PersonalPage());
+OneRoute personalPageRoute(BuildContext context, {UserModel user}) =>
+    OneRoute(builder: (context) => PersonalPage(userModel: user));
 
-OneRoute schedulePageRoute(BuildContext context) =>
-    OneRoute(builder: (context) => SchedulePage());
+OneRoute schedulePageRoute(BuildContext context, {UserModel user}) =>
+    OneRoute(builder: (context) => SchedulePage(userModel: user));
 
