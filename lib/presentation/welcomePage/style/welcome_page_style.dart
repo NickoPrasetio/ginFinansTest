@@ -10,7 +10,7 @@ class WelcomePageStyle {
     ...ReusableTextFieldStyle.textFieldStyle,
     'keyboardType': TextInputType.emailAddress,
     'inputFormat': null,
-    'margin': Space(left: 24, right: 24),
+    'margin': Space(left: 16, right: 16),
   };
 
   var welcomeSubtitleTextStyle = {

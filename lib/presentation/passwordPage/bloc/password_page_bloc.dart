@@ -6,20 +6,24 @@ import 'package:ginFinans/util/regex_pattern.dart';
 class PasswordPageBloc extends Bloc<PasswordPageEvent, PasswordPageState> {
   PasswordPageBloc()
       : super(PasswordPageLoaded(
-            isPasswordVisible: false,
-            isConatainChar: false,
-            isContainNumber: false,
-            isContainLowerCase: false,
-            isContainUppercase: false));
+          passwordLevel: '',
+          isPasswordVisible: false,
+          isConatainChar: false,
+          isContainNumber: false,
+          isContainLowerCase: false,
+          isContainUppercase: false,
+        ));
 
   bool _isPasswordVisible,
       _containNumber,
       _containLowerCase,
       _containUpperCase,
       _containChar;
+  int _counterPass;
 
   @override
   Stream<PasswordPageState> mapEventToState(PasswordPageEvent event) async* {
+    _counterPass = 0;
     if (event is PasswordPageInit) {
       _isPasswordVisible = false;
       _containNumber = false;
@@ -37,24 +41,52 @@ class PasswordPageBloc extends Bloc<PasswordPageEvent, PasswordPageState> {
     yield updateUiStatus();
   }
 
+  String calcPassWeakness() {
+    if (_counterPass < 2) {
+      return 'Super Weak';
+    } else if (_counterPass <= 3) {
+      return 'Weak';
+    } else if (_counterPass >= 4) {
+      return 'Strong';
+    }
+    return '';
+  }
+
   bool isContainNumber(String value) {
-    return RegExp(RegexPattern.regexNumber).hasMatch(value);
+    final bool isTrue = RegExp(RegexPattern.regexNumber).hasMatch(value);
+    if (isTrue) {
+      _counterPass += 1;
+    }
+    return isTrue;
   }
 
   bool isContainLowerCase(String value) {
-    return RegExp(RegexPattern.regexLowerCase).hasMatch(value);
+    final bool isTrue = RegExp(RegexPattern.regexLowerCase).hasMatch(value);
+    if (isTrue) {
+      _counterPass += 1;
+    }
+    return isTrue;
   }
 
   bool isContainUpperCase(String value) {
-    return RegExp(RegexPattern.regexUpperCase).hasMatch(value);
+    final bool isTrue = RegExp(RegexPattern.regexUpperCase).hasMatch(value);
+    if (isTrue) {
+      _counterPass += 1;
+    }
+    return isTrue;
   }
 
   bool isContainChar(String value) {
-    return RegExp(RegexPattern.regexSpecialChar).hasMatch(value);
+    final bool isTrue = RegExp(RegexPattern.regexSpecialChar).hasMatch(value);
+    if (isTrue) {
+      _counterPass += 1;
+    }
+    return isTrue;
   }
 
   PasswordPageLoaded updateUiStatus() {
     return PasswordPageLoaded(
+        passwordLevel: calcPassWeakness(),
         isPasswordVisible: _isPasswordVisible,
         isConatainChar: _containChar,
         isContainNumber: _containNumber,

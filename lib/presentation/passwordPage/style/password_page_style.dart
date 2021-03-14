@@ -10,7 +10,7 @@ class PasswordPageStyle {
     ...ReusableTextFieldStyle.textFieldStyle,
     'keyboardType': TextInputType.emailAddress,
     'inputFormat': null,
-    'margin': Space(left: 15, right: 15),
+    'margin': Space(left: 24, right: 24),
   };
 
     var complexityTitleTextStyle = {

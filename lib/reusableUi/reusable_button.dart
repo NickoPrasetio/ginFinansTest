@@ -12,7 +12,6 @@ class ReusableButton extends StatelessWidget {
   }) {
     _size = style['size'];
     _color = isEnabled ? style['color'] : Palette.lightSkyBlue;
-    _secondaryColor = isEnabled ? style['secondaryColor'] : null;
     _borderRadiusRectangle = style['borderRadiusRectangle'];
     _fontColor = isEnabled ? style['fontColor'] : Palette.black;
     _borderColor = style['borderColor'];
@@ -20,22 +19,16 @@ class ReusableButton extends StatelessWidget {
     _fontStyle = style['fontStyle'];
     _contAlignment = style['contAlignment'];
     _margin = style['margin'];
-    _endIcon = style['endIcon'];
-    _startIcon = style['startIcon'];
-    _iconSize = style['iconSize'];
-    _isStartCircle = style['isStartCircle'];
   }
 
   final Function pressHandler;
   final String text;
   final bool isEnabled;
-  bool _isStartCircle;
-  String _endIcon, _startIcon;
-  Size _size, _iconSize;
+  Size _size;
   Space _margin;
   FontStyle _fontStyle;
   Alignment _contAlignment;
-  Color _fontColor, _color, _secondaryColor, _borderColor;
+  Color _fontColor, _color, _borderColor;
   double _borderWidth;
   num _borderRadiusRectangle;
 
@@ -76,16 +69,11 @@ class ReusableButton extends StatelessWidget {
               alignment: _contAlignment,
               child: Container(
                 child: Row(
-                  mainAxisAlignment: _endIcon == null
-                      ? MainAxisAlignment.center
-                      : MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
                       child: Container(
-                        margin: 
-                            const EdgeInsets.only(
-                              right: 15, left: 15
-                            ),
+                        margin: const EdgeInsets.only(right: 15, left: 15),
                         child: Text(
                           text,
                           textAlign: TextAlign.center,
@@ -96,15 +84,6 @@ class ReusableButton extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (_endIcon != null)
-                      Container(
-                        margin: const EdgeInsets.only(right: 15),
-                        child: Image.asset(
-                          _endIcon,
-                          width: _iconSize.width.toDouble(),
-                          height: _iconSize.height.toDouble(),
-                        ),
-                      )
                   ],
                 ),
               ),

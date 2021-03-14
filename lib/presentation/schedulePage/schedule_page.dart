@@ -9,6 +9,7 @@ import 'package:ginFinans/presentation/schedulePage/bloc/schedule_page_event.dar
 import 'package:ginFinans/presentation/schedulePage/bloc/schedule_page_state.dart';
 import 'package:ginFinans/presentation/schedulePage/style/schedule_page_style.dart';
 import 'package:ginFinans/reusableUi/calendar_animation.dart';
+import 'package:ginFinans/reusableUi/circle_progress.dart';
 import 'package:ginFinans/reusableUi/reusable_button.dart';
 import 'package:ginFinans/reusableUi/reusable_datepicker.dart';
 import 'package:ginFinans/reusableUi/reusable_textview.dart';
@@ -22,7 +23,8 @@ class SchedulePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Palette.skyBlue,
+      appBar: AppBar(
+          backgroundColor: Palette.skyBlue,
           title: Text(I18n.getText(context, 'textAppBarAccount'))),
       resizeToAvoidBottomPadding: false,
       body: BlocProvider(
@@ -61,9 +63,10 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    CircleProgress(total: 4, step: 3),
                     Container(
                         color: Palette.skyBlue,
-                        margin: EdgeInsets.only(left: 35, top: 24, bottom: 24),
+                        margin: EdgeInsets.only(left: 35, top: 8, bottom: 24,),
                         height: 25,
                         width: 25,
                         child: CalendarAnimation()),
@@ -135,7 +138,6 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
                           onDateTimeChanged: (val) {
                             _defValue =
                                 DateParser.parseDate(val, formatter).toString();
-                            ;
                           }),
                     ),
                     ReusableButton(

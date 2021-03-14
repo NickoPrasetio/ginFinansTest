@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:ginFinans/reusableUi/base_style.dart';
 import 'package:ginFinans/reusableUi/reusable_dropdown_style.dart';
 import 'package:ginFinans/reusableUi/reusable_textview.dart';
-import 'package:ginFinans/util/date_parser.dart';
 import 'package:ginFinans/util/palette.dart';
 
 // ignore: must_be_immutable
@@ -70,41 +69,4 @@ class ReusableDatePicker extends StatelessWidget {
                                   color: Colors.grey)))
                     ]))));
   }
-
-  void _showCupertinoDatePicker(context) {
-    String _defValue =
-        DateParser.parseDate(DateTime.now(), datePickerFormat).toString();
-    ;
-    showCupertinoModalPopup(
-        context: context,
-        builder: (_) => Container(
-              height: 500,
-              color: Color.fromARGB(255, 255, 255, 255),
-              child: Column(
-                children: [
-                  Container(
-                    height: 400,
-                    child: CupertinoDatePicker(
-                        mode: mode,
-                        initialDateTime: DateTime.now(),
-                        onDateTimeChanged: (val) {
-                          _defValue =
-                              DateParser.parseDate(val, datePickerFormat)
-                                  .toString();
-                          ;
-                        }),
-                  ),
-                  CupertinoButton(
-                    color: Palette.skyBlue,
-                    child: Text('OK'),
-                    onPressed: () {
-                      pressHandler(_defValue);
-                      Navigator.of(context).pop();
-                    },
-                  )
-                ],
-              ),
-            ));
-  }
 }
-

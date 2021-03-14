@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:ginFinans/reusableUi/base_style.dart';
 import 'package:ginFinans/reusableUi/reusable_dropdown_style.dart';
 import 'package:ginFinans/reusableUi/reusable_textview.dart';
-import 'package:ginFinans/util/date_parser.dart';
 import 'package:ginFinans/util/palette.dart';
 
 // ignore: must_be_immutable

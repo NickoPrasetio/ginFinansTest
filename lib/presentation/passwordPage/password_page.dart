@@ -5,6 +5,7 @@ import 'package:ginFinans/presentation/passwordPage/bloc/password_page_bloc.dart
 import 'package:ginFinans/presentation/passwordPage/bloc/password_page_event.dart';
 import 'package:ginFinans/presentation/passwordPage/bloc/password_pahe_state.dart';
 import 'package:ginFinans/presentation/passwordPage/style/password_page_style.dart';
+import 'package:ginFinans/reusableUi/circle_progress.dart';
 import 'package:ginFinans/reusableUi/reusable_button.dart';
 import 'package:ginFinans/reusableUi/reusable_textfield.dart';
 import 'package:ginFinans/reusableUi/reusable_textview.dart';
@@ -47,7 +48,6 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
   @override
   void initState() {
     super.initState();
-    _passwordLevel = '';
     _passwordPageBloc = BlocProvider.of<PasswordPageBloc>(context);
     _passwordController =
         TextInputController((value) => _passwordChanged(value))
@@ -71,6 +71,7 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    CircleProgress(total: 4, step: 1),
                     ReusableTextView(
                       text: I18n.getText(context, 'textCreatePassword'),
                       style: _passwordPageStyle.passwordTitleTextStyle,
@@ -95,7 +96,7 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
                         style: _passwordPageStyle.complexityTitleTextStyle,
                       ),
                       ReusableTextView(
-                        text: 'Weak',
+                        text: _passwordLevel,
                         style: _passwordPageStyle.complexityTitleTextStyle,
                       ),
                     ]),
@@ -118,6 +119,7 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
   void _mapState(PasswordPageState state) {
     if (state is PasswordPageLoaded) {
       _setComplexityPassword(state);
+      _passwordLevel = state.passwordLevel;
       _isVisible = state.isPasswordVisible;
     }
   }

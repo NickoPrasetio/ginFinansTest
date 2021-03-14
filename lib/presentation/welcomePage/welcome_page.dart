@@ -5,6 +5,7 @@ import 'package:ginFinans/presentation/welcomePage/bloc/welcome_page_bloc.dart';
 import 'package:ginFinans/presentation/welcomePage/bloc/welcome_page_event.dart';
 import 'package:ginFinans/presentation/welcomePage/style/welcome_page_style.dart';
 import 'package:ginFinans/reusableUi/base_style.dart';
+import 'package:ginFinans/reusableUi/circle_progress.dart';
 import 'package:ginFinans/reusableUi/reusable_button.dart';
 import 'package:ginFinans/reusableUi/reusable_textfield.dart';
 import 'package:ginFinans/reusableUi/reusable_textview.dart';
@@ -20,7 +21,7 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Palette.softGrey),
       resizeToAvoidBottomPadding: false,
       body: BlocProvider(
         create: (context) =>
@@ -63,61 +64,78 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
         cubit: _welcomePageBloc,
         builder: (BuildContext context, WelcomePageState state) {
           _mapState(state);
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max, children: <Widget>[
-            Container(
-                width: 250,
-                margin: EdgeInsets.only(left: 24, right: 24),
-                child: RichText(
-                  textAlign: TextAlign.left,
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: I18n.getText(context, 'textWelcomeTitle'),
-                        style: TextStyle(
-                          height: 1.5,
-                          fontSize: 32.0,
-                          fontFamily: FontFamilies.bold,
-                          color: Palette.black,
-                        ),
-                      ),
-                      TextSpan(
-                          text: I18n.getText(context, 'textFinans'),
-                          style: TextStyle(
-                            height: 1.5,
-                            fontSize: 32.0,
-                            fontFamily: FontFamilies.bold,
-                            color: Palette.blue,
-                          )),
-                    ],
-                  ),
-                )),
-            ReusableTextView(
-              text: I18n.getText(context, 'textWelcomeSubtitle'),
-              style: _welcomePageStyle.welcomeSubtitleTextStyle,
-            ),
-            ReusableTextField(
-              textChangeHandler: _emailController,
-              hintText: I18n.getText(context, 'textEmail'),
-              prefixIcon: Icon(Icons.email, color: Colors.grey),
-              obscureText: false,
-              style: _welcomePageStyle.emailStyle,
-              isValid: _isValidEmail,
-              errorText: 'Please enter a valid Email',
-            ),
-            Expanded(
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ReusableButton(
-                      text: I18n.getText(context, 'textNext'),
-                      style: _welcomePageStyle.submitEmailButtonStyle,
-                      pressHandler: () {
-                        Navigator.push(context, passwordPageRoute(context));
-                      },
-                    )))
-          ]);
+          return Container(
+              color: Palette.softGrey,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    CircleProgress(total: 4, step: 0),
+                    _welcomeTitleWidget(),
+                    ReusableTextView(
+                      text: I18n.getText(context, 'textWelcomeSubtitle'),
+                      style: _welcomePageStyle.welcomeSubtitleTextStyle,
+                    ),
+                    Container(
+                        margin: const EdgeInsets.only(
+                            left: 24, right: 24, top: 50, bottom: 50),
+                        padding: const EdgeInsets.only(top: 30),
+                        decoration: BoxDecoration(
+                            color: Palette.white,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5.0))),
+                        child: ReusableTextField(
+                          textChangeHandler: _emailController,
+                          hintText: I18n.getText(context, 'textEmail'),
+                          prefixIcon: Icon(Icons.email, color: Colors.grey),
+                          obscureText: false,
+                          style: _welcomePageStyle.emailStyle,
+                          isValid: _isValidEmail,
+                          errorText: 'Please enter a valid Email',
+                        )),
+                    Expanded(
+                        child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: ReusableButton(
+                              text: I18n.getText(context, 'textNext'),
+                              style: _welcomePageStyle.submitEmailButtonStyle,
+                              pressHandler: () {
+                                Navigator.push(
+                                    context, passwordPageRoute(context));
+                              },
+                            )))
+                  ]));
         });
+  }
+
+  Widget _welcomeTitleWidget() {
+    return Container(
+        width: 250,
+        margin: EdgeInsets.only(left: 24, right: 24),
+        child: RichText(
+          textAlign: TextAlign.left,
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                text: I18n.getText(context, 'textWelcomeTitle'),
+                style: TextStyle(
+                  height: 1.5,
+                  fontSize: 32.0,
+                  fontFamily: FontFamilies.bold,
+                  color: Palette.black,
+                ),
+              ),
+              TextSpan(
+                  text: I18n.getText(context, 'textFinans'),
+                  style: TextStyle(
+                    height: 1.5,
+                    fontSize: 32.0,
+                    fontFamily: FontFamilies.bold,
+                    color: Palette.blue,
+                  )),
+            ],
+          ),
+        ));
   }
 
   void _emailChanged(String email) {

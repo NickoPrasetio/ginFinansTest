@@ -5,6 +5,7 @@ import 'package:ginFinans/presentation/personailInfoPage/bloc/personal_page_bloc
 import 'package:ginFinans/presentation/personailInfoPage/bloc/personal_page_event.dart';
 import 'package:ginFinans/presentation/personailInfoPage/bloc/personal_page_state.dart';
 import 'package:ginFinans/presentation/personailInfoPage/style/personal_page_style.dart';
+import 'package:ginFinans/reusableUi/circle_progress.dart';
 import 'package:ginFinans/reusableUi/reusable_button.dart';
 import 'package:ginFinans/reusableUi/reusable_dropdown.dart';
 import 'package:ginFinans/reusableUi/reusable_textview.dart';
@@ -58,6 +59,7 @@ class _PersonalPageWidgetState extends State<PersonalPageWidget> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    CircleProgress(total: 4, step: 2),
                     ReusableTextView(
                       text: I18n.getText(context, 'textPersonalInfoTitle'),
                       style: _personalPageStyle.personalInfoTitleTextStyle,
