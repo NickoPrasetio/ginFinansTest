@@ -1,97 +1,94 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ginFinans/reusableUi/base_style.dart';
-
 import 'package:ginFinans/util/palette.dart';
 
 // ignore: must_be_immutable
 class ReusableTextField extends StatelessWidget {
   ReusableTextField({
     this.pressHandler,
+    this.iconPath,
     this.labelText,
     this.hintText,
+    this.obscureText,
     this.errorText = '',
-    this.isValid,
+    this.isValid = true,
     this.textChangeHandler,
-    this.iconPath,
     this.style,
-    this.onTap,
-    this.prefixWidget,
-    this.suffixWidget,
-    this.submitHandler,
   }) {
-    _obscureText = style['obscureText'];
+    _size = style['size'];
+    _fontStyle = style['fontStyle'];
+    _fontColor = style['fontColor'];
+    _fontStyleHint = style['fontStyleHint'];
+    _fontColorHint = style['fontColorHint'];
+    _letterSpacing = style['letterSpacing'];
     _margin = style['margin'];
+    _maxLines = style['maxLines'];
   }
 
-  final Function pressHandler, onTap;
-  bool isValidEmail;
-  Function submitHandler;
+  Function pressHandler;
   final String labelText, hintText, errorText, iconPath;
-  Widget suffixWidget;
-  Widget prefixWidget;
-
+  Size _size;
+  FontStyle _fontStyle, _fontStyleHint;
+  Color _fontColor, _fontColorHint;
   Space _margin;
-  bool _obscureText, isValid, isEnable = true;
+  bool obscureText, isValid, isEnabl;
   TextEditingController textChangeHandler;
+  num _letterSpacing, _maxLines;
   Map<String, dynamic> style;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(
-            top: _margin?.top?.toDouble() ?? 0,
-            bottom: _margin?.bottom?.toDouble() ?? 0,
-            left: _margin?.left?.toDouble() ?? 0,
-            right: _margin?.right?.toDouble() ?? 0),
-        child: isValid
-            ? TextField(
-                autocorrect: true,
-                decoration: InputDecoration(
-                    hintText: hintText,
-                    prefixIcon: Icon(Icons.email, color: Colors.grey),
-                    suffixIcon: Icon(Icons.lock, color: Colors.grey),
-                    hintStyle: TextStyle(color: Colors.grey),
-                    filled: true,
-                    fillColor: Palette.softGrey))
-            : TextField(
-                autocorrect: true,
-                decoration: InputDecoration(
-                    hintText: hintText,
-                    prefixIcon: Icon(Icons.email, color: Colors.grey),
-                    hintStyle: TextStyle(color: Colors.grey),
-                    filled: true,
-                    fillColor: Palette.softGrey,
-                    errorStyle: TextStyle(),
-                    errorText: 'Please enter something',
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: BorderSide(
-                        color: Colors.red[700],
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        borderSide: BorderSide(
-                          color: Colors.red[700],
-                        ))),
-              ));
+      padding: EdgeInsets.only(
+          top: _margin?.top?.toDouble() ?? 0,
+          bottom: _margin?.bottom?.toDouble() ?? 0,
+          left: _margin?.left?.toDouble() ?? 0,
+          right: _margin?.right?.toDouble() ?? 0),
+      child: SizedBox(
+          width: double.infinity,
+          height: 100.0,
+          child: Container(
+            margin: const EdgeInsets.only(top: 10),
+            height: _size?.height?.toDouble(),
+            width: _size?.width?.toDouble(),
+            child: TextFormField(
+              maxLines: _maxLines,
+              cursorColor: _fontColor,
+              controller: textChangeHandler,
+              obscureText: obscureText,
+              style: TextStyle(
+                letterSpacing: _letterSpacing?.toDouble() ?? 0,
+                fontFamily: _fontStyle.family,
+                fontSize: _fontStyle.size,
+                color: _fontColor,
+              ),
+              decoration: InputDecoration(
+                errorText: isValid ? '' : errorText,
+                filled: true,
+                fillColor: Palette.softGrey,
+                border: InputBorder.none,
+                hintText: hintText,
+                hintStyle: TextStyle(
+                  fontFamily: _fontStyleHint.family,
+                  fontSize: _fontStyleHint.size,
+                  color: _fontColorHint,
+                ),
+                suffixIcon: generateIconButton(),
+                prefixIcon: Container(padding: EdgeInsets.only(bottom: 5), child: Icon(Icons.email, color: Colors.grey)),
+              ),
+            ),
+          )),
+    );
   }
-}
 
-class CommaTextInputFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    String truncated = newValue.text;
-    final TextSelection newSelection = newValue.selection;
-
-    if (newValue.text.contains('.')) {
-      truncated = newValue.text.replaceAll('.', ',');
-    }
-    return TextEditingValue(
-      text: truncated,
-      selection: newSelection,
+    IconButton generateIconButton() {
+    return IconButton(
+      padding: const EdgeInsets.only(left: 8, right: 8),
+      alignment: Alignment.centerRight,
+      icon: Icon(Icons.remove_red_eye, color: Colors.grey),
+      onPressed: pressHandler,
+      color: Palette.gray,
+      autofocus: true,
     );
   }
 }

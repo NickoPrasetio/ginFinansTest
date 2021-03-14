@@ -141,7 +141,8 @@ class _WelcomePageWidgetState extends State<SchedulePageWidget> {
                       text: I18n.getText(context, 'textNext'),
                       style: _schedulePageStyle.submitEmailButtonStyle,
                       pressHandler: () {
-                        Navigator.push(context, passwordPageRoute(context));
+                        _updateDateTime(_defValue, mode);
+                        Navigator.of(context).pop();
                       },
                     )
                   ],

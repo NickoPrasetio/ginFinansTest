@@ -50,20 +50,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0-nullsafety.3"
-  cupertino_icons:
-    dependency: "direct main"
-    description:
-      name: cupertino_icons
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
-  equatable:
-    dependency: "direct main"
-    description:
-      name: equatable
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.6"
   fake_async:
     dependency: transitive
     description:
@@ -142,13 +128,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.3"
-  sailor:
-    dependency: "direct main"
-    description:
-      name: sailor
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.1"
   sky_engine:
     dependency: transitive
     description: flutter

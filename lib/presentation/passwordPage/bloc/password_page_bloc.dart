@@ -10,7 +10,9 @@ class PasswordPageBloc extends Bloc<PasswordPageEvent, PasswordPageState> {
   @override
   Stream<PasswordPageState> mapEventToState(PasswordPageEvent event) async* {
     if (event is PasswordPageInit){
-      yield PasswordPageLoaded();
+      yield PasswordPageLoaded(isPasswordVisible: false);
+    } else if (event is ChangePasswordVisibility){
+      yield PasswordPageLoaded(isPasswordVisible: !event.isVisible);
     }
   }
 }

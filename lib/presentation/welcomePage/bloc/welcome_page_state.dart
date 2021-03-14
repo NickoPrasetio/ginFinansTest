@@ -1,10 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-abstract class WelcomePageState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
+abstract class WelcomePageState {}
 class InitLoaded extends WelcomePageState {
   final bool isButtonEnable;
   InitLoaded(this.isButtonEnable);
@@ -12,7 +6,8 @@ class InitLoaded extends WelcomePageState {
 
 class EmailChanged extends WelcomePageState {
   final String email;
-  EmailChanged(this.email);
+  final bool isValid;
+  EmailChanged({this.email, this.isValid});
 }
 
 class EmailSubmited extends WelcomePageState {

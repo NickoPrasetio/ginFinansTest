@@ -1,9 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-abstract class PersonalPageEvent extends Equatable {
-  @override
-  List<Object> get props => [];
-}
+abstract class PersonalPageEvent {}
 
 class WelcomeInit extends PersonalPageEvent {}
 

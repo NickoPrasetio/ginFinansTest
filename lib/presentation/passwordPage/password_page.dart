@@ -38,6 +38,7 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
   PasswordPageBloc _passwordPageBloc;
   PasswordPageStyle _passwordPageStyle = PasswordPageStyle();
   List<ComplexityItemModel> listComplexity;
+  bool _isVisible;
 
   @override
   void initState() {
@@ -51,7 +52,8 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
     return BlocBuilder<PasswordPageBloc, PasswordPageState>(
         cubit: _passwordPageBloc,
         builder: (BuildContext context, PasswordPageState state) {
-          setComplexityPassword();
+          _setComplexityPassword();
+          _mapState(state);
           return Container(
               color: Palette.skyBlue,
               child: Column(
@@ -67,8 +69,11 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
                     ),
                     ReusableTextField(
                       hintText: I18n.getText(context, 'textWelcomeTitle'),
+                      obscureText: _isVisible,
                       style: _passwordPageStyle.passwordTextFieldStyle,
                       isValid: true,
+                      pressHandler: _changeVisibilityPass,
+                      // obscureText: _isVisible ? true : false,
                     ),
                     Row(children: <Widget>[
                       ReusableTextView(
@@ -96,16 +101,34 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
         });
   }
 
-  void setComplexityPassword() {
+  void _mapState(PasswordPageState state) {
+    if (state is PasswordPageLoaded) {
+      _isVisible = state.isPasswordVisible;
+    }
+  }
+
+  void _changeVisibilityPass() {
+    _passwordPageBloc.add(ChangePasswordVisibility(_isVisible));
+  }
+
+  void _setComplexityPassword() {
     listComplexity = [];
-    listComplexity
-        .add(ComplexityItemModel(title: 'Weak', aplhabet: 'a', isValid: false));
-    listComplexity.add(
-        ComplexityItemModel(title: 'Strong', aplhabet: 'A', isValid: false));
-    listComplexity.add(
-        ComplexityItemModel(title: 'balnce', aplhabet: '123', isValid: false));
-    listComplexity
-        .add(ComplexityItemModel(title: 'ok', aplhabet: '9+', isValid: false));
+    listComplexity.add(ComplexityItemModel(
+        title: I18n.getText(context, 'textComplexity'),
+        aplhabet: 'a',
+        isValid: false));
+    listComplexity.add(ComplexityItemModel(
+        title: I18n.getText(context, 'textComplexity'),
+        aplhabet: 'A',
+        isValid: false));
+    listComplexity.add(ComplexityItemModel(
+        title: I18n.getText(context, 'textComplexity'),
+        aplhabet: '123',
+        isValid: false));
+    listComplexity.add(ComplexityItemModel(
+        title: I18n.getText(context, 'textComplexity'),
+        aplhabet: '9+',
+        isValid: false));
   }
 
   Widget _complexityListWidgetItem() {

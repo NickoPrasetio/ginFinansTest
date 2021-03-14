@@ -46,9 +46,6 @@ class _GinFinansAppState extends State<GinFinansApp> {
         ),
         debugShowCheckedModeBanner: false,
         locale: const Locale('id', 'ID'),
-        // navigatorKey: Routes.sailor.navigatorKey,
-        // onGenerateRoute: Routes.sailor.generator(),
-        // ignore: prefer_const_literals_to_create_immutables
         supportedLocales: [const Locale('id', 'ID')],
         localizationsDelegates: [
           AppLocalization.delegate,

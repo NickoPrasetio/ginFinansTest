@@ -1,9 +1,10 @@
-import 'package:equatable/equatable.dart';
 
-abstract class PasswordPageEvent extends Equatable {
-  @override
-  List<Object> get props => [];
-}
+abstract class PasswordPageEvent {}
 
 class PasswordPageInit extends PasswordPageEvent {}
+
+class ChangePasswordVisibility extends PasswordPageEvent {
+  final bool isVisible;
+  ChangePasswordVisibility(this.isVisible);
+}
 
