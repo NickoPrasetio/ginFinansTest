@@ -13,6 +13,13 @@ class PasswordPageStyle {
     'margin': Space(left: 15, right: 15),
   };
 
+    var complexityTitleTextStyle = {
+    ...ReusableTextViewStyle.textAreaP2rStyle,
+    'fontColor': Palette.white,
+    'maxLines': 1,
+    'margin': Space(bottom: 24, left: 24),
+  };
+
   var passwordTitleTextStyle = {
     ...ReusableTextViewStyle.textAreaH2BStyle,
     'fontColor': Palette.white,

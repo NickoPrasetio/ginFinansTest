@@ -8,6 +8,7 @@ import 'package:ginFinans/presentation/passwordPage/style/password_page_style.da
 import 'package:ginFinans/reusableUi/reusable_button.dart';
 import 'package:ginFinans/reusableUi/reusable_textfield.dart';
 import 'package:ginFinans/reusableUi/reusable_textview.dart';
+import 'package:ginFinans/reusableUi/text_input_widget_controller.dart';
 import 'package:ginFinans/util/i18n.dart';
 import 'package:ginFinans/util/palette.dart';
 import 'package:ginFinans/util/routes.dart';
@@ -37,6 +38,7 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
   String _passwordLevel;
   PasswordPageBloc _passwordPageBloc;
   PasswordPageStyle _passwordPageStyle = PasswordPageStyle();
+  TextEditingController _passwordController;
   List<ComplexityItemModel> listComplexity;
   bool _isVisible;
 
@@ -45,6 +47,15 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
     super.initState();
     _passwordLevel = '';
     _passwordPageBloc = BlocProvider.of<PasswordPageBloc>(context);
+    _passwordController =
+        TextInputController((value) => _passwordChanged(value))
+            .textEditingController;
+  }
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -52,7 +63,6 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
     return BlocBuilder<PasswordPageBloc, PasswordPageState>(
         cubit: _passwordPageBloc,
         builder: (BuildContext context, PasswordPageState state) {
-          _setComplexityPassword();
           _mapState(state);
           return Container(
               color: Palette.skyBlue,
@@ -68,21 +78,23 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
                       style: _passwordPageStyle.passwordSubtitleTextStyle,
                     ),
                     ReusableTextField(
-                      hintText: I18n.getText(context, 'textWelcomeTitle'),
+                      suffixIcon:
+                          Icon(Icons.remove_red_eye, color: Colors.grey),
+                      textChangeHandler: _passwordController,
+                      hintText: I18n.getText(context, 'textCreatePassword'),
                       obscureText: _isVisible,
                       style: _passwordPageStyle.passwordTextFieldStyle,
                       isValid: true,
                       pressHandler: _changeVisibilityPass,
-                      // obscureText: _isVisible ? true : false,
                     ),
                     Row(children: <Widget>[
                       ReusableTextView(
                         text: I18n.getText(context, 'textComplexity'),
-                        style: _passwordPageStyle.passwordTextFieldStyle,
+                        style: _passwordPageStyle.complexityTitleTextStyle,
                       ),
                       ReusableTextView(
                         text: 'Weak',
-                        style: _passwordPageStyle.passwordTextFieldStyle,
+                        style: _passwordPageStyle.complexityTitleTextStyle,
                       ),
                     ]),
                     _complexityListWidgetItem(),
@@ -103,32 +115,37 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
 
   void _mapState(PasswordPageState state) {
     if (state is PasswordPageLoaded) {
+      _setComplexityPassword(state);
       _isVisible = state.isPasswordVisible;
     }
+  }
+
+  void _passwordChanged(String value) {
+    _passwordPageBloc.add(ChangePasswordValue(value));
   }
 
   void _changeVisibilityPass() {
     _passwordPageBloc.add(ChangePasswordVisibility(_isVisible));
   }
 
-  void _setComplexityPassword() {
+  void _setComplexityPassword(PasswordPageLoaded state) {
     listComplexity = [];
     listComplexity.add(ComplexityItemModel(
-        title: I18n.getText(context, 'textComplexity'),
+        title: I18n.getText(context, 'textLowercase'),
         aplhabet: 'a',
-        isValid: false));
+        isValid: state.isContainLowerCase));
     listComplexity.add(ComplexityItemModel(
-        title: I18n.getText(context, 'textComplexity'),
+        title: I18n.getText(context, 'textUppercase'),
         aplhabet: 'A',
-        isValid: false));
+        isValid: state.isContainUppercase));
     listComplexity.add(ComplexityItemModel(
-        title: I18n.getText(context, 'textComplexity'),
+        title: I18n.getText(context, 'textNumber'),
         aplhabet: '123',
-        isValid: false));
+        isValid: state.isContainNumber));
     listComplexity.add(ComplexityItemModel(
-        title: I18n.getText(context, 'textComplexity'),
+        title: I18n.getText(context, 'textCharacters'),
         aplhabet: '9+',
-        isValid: false));
+        isValid: state.isConatainChar));
   }
 
   Widget _complexityListWidgetItem() {
@@ -148,11 +165,13 @@ class _PasswordPageWidgetState extends State<PasswordPageWidget> {
   Widget _complexityWidgetItem(ComplexityItemModel complexityItem) {
     return Column(children: <Widget>[
       if (complexityItem.isValid)
-        Image.asset(
-          'assets/images/check_icon.png',
-          width: 24,
-          height: 24,
-        ),
+        Container(
+            margin: EdgeInsets.only(bottom: 5, top: 5),
+            child: Image.asset(
+              'assets/images/check_icon.png',
+              width: 24,
+              height: 24,
+            )),
       if (!complexityItem.isValid)
         ReusableTextView(
           text: complexityItem.aplhabet,

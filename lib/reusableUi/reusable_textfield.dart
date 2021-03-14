@@ -10,6 +10,8 @@ class ReusableTextField extends StatelessWidget {
     this.labelText,
     this.hintText,
     this.obscureText,
+    this.prefixIcon,
+    this.suffixIcon,
     this.errorText = '',
     this.isValid = true,
     this.textChangeHandler,
@@ -27,6 +29,7 @@ class ReusableTextField extends StatelessWidget {
 
   Function pressHandler;
   final String labelText, hintText, errorText, iconPath;
+  final Icon prefixIcon, suffixIcon;
   Size _size;
   FontStyle _fontStyle, _fontStyleHint;
   Color _fontColor, _fontColorHint;
@@ -73,19 +76,22 @@ class ReusableTextField extends StatelessWidget {
                   fontSize: _fontStyleHint.size,
                   color: _fontColorHint,
                 ),
-                suffixIcon: generateIconButton(),
-                prefixIcon: Container(padding: EdgeInsets.only(bottom: 5), child: Icon(Icons.email, color: Colors.grey)),
+                suffixIcon: null == suffixIcon ? null : generateIconButton(),
+                prefixIcon: null == prefixIcon ?
+                    null : Container(
+                        padding: EdgeInsets.only(bottom: 5),
+                        child: prefixIcon)
               ),
             ),
           )),
     );
   }
 
-    IconButton generateIconButton() {
+  IconButton generateIconButton() {
     return IconButton(
       padding: const EdgeInsets.only(left: 8, right: 8),
       alignment: Alignment.centerRight,
-      icon: Icon(Icons.remove_red_eye, color: Colors.grey),
+      icon: suffixIcon,
       onPressed: pressHandler,
       color: Palette.gray,
       autofocus: true,

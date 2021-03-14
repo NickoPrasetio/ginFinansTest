@@ -49,11 +49,12 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
     _welcomePageBloc = BlocProvider.of<WelcomePageBloc>(context);
   }
 
-@override
+  @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WelcomePageBloc, WelcomePageState>(
@@ -68,6 +69,7 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
             ReusableTextField(
               textChangeHandler: _emailController,
               hintText: I18n.getText(context, 'textEmail'),
+              prefixIcon: Icon(Icons.email, color: Colors.grey),
               obscureText: false,
               style: _welcomePageStyle.emailStyle,
               isValid: _isValidEmail,

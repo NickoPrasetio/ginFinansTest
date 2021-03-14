@@ -8,3 +8,8 @@ class ChangePasswordVisibility extends PasswordPageEvent {
   ChangePasswordVisibility(this.isVisible);
 }
 
+class ChangePasswordValue extends PasswordPageEvent {
+  final String password;
+  ChangePasswordValue(this.password);
+}
+
