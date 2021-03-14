@@ -80,24 +80,6 @@ class ReusableButton extends StatelessWidget {
                       ? MainAxisAlignment.center
                       : MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    if (_isStartCircle != null)
-                      Container(
-                        margin:
-                            const EdgeInsets.only(left: 5, top: 5, bottom: 5),
-                        height: 15,
-                        width: 15,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: Palette.purple),
-                      ),
-                    if (_startIcon != null)
-                      Container(
-                        margin: const EdgeInsets.only(left: 15),
-                        child: Image.asset(
-                          _startIcon,
-                          width: _iconSize.width.toDouble(),
-                          height: _iconSize.height.toDouble(),
-                        ),
-                      ),
                     Expanded(
                       child: Container(
                         margin: 

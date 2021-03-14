@@ -37,7 +37,7 @@ class _GinFinansAppState extends State<GinFinansApp> {
         appBarTheme: AppBarTheme(
             elevation: 0,
             textTheme: TextTheme(
-                title: TextStyle(
+                headline6: TextStyle(
               fontSize: 18,
               color: Palette.white,
               fontFamily: FontFamilies.bold,

@@ -84,7 +84,7 @@ class ReusableDropdown extends StatelessWidget {
               child: ListView.separated(
                   separatorBuilder: (context, index) => Container(
                       margin: const EdgeInsets.only(left: 15, right: 15),
-                      child: Divider(color: Palette.gray, thickness: 1.0)),
+                      child: Divider(color: Palette.hardGray, thickness: 1.0)),
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: options.length,
